@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Creative Coding Lab
 
-## Getting Started
+A Next.js-based creative coding playground with a clean P5.js abstraction. Subclass `P5Sketch`, override `setup()` and `draw()`, and ship visual experiments without boilerplate.
 
-First, run the development server:
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Build for production with `bun run build`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Creating a New Sketch
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a directory in `app/sketches/[name]/`
 
-## Learn More
+2. Create your sketch class extending `P5Sketch`:
 
-To learn more about Next.js, take a look at the following resources:
+   ```typescript
+   import { P5Sketch } from "@/app/components/p5-sketch/P5Sketch";
+   import type p5 from "p5";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   export default class MySketch extends P5Sketch {
+     protected setup(p: p5): void {
+       // Initialize your sketch
+     }
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+     protected draw(p: p5): void {
+       // Draw each frame
+     }
+   }
+   ```
 
-## Deploy on Vercel
+3. Export it from `app/sketches/[name]/index.ts`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```typescript
+   export { default as MySketch } from "./MySketch";
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Register it in `app/sketches/index.ts`:
+
+   ```typescript
+   import { MySketch } from "@/app/sketches/[name]";
+
+   export const sketches: Sketch[] = [
+     // ... existing sketches
+     {
+       name: "My Sketch",
+       slug: "my-sketch",
+       description: "What it does",
+       component: MySketch,
+     },
+   ];
+   ```
+
+5. Add a `README.md` in your sketch directory documenting what it does and how it works.
+
+See `app/sketches/bouncing-balls/` for a complete example.
+
+## Project Structure
+
+```text
+app/
+  components/
+    p5-sketch/          # Base P5Sketch class and React wrapper
+  sketches/
+    [slug]/             # Dynamic route handler
+    [name]/              # Individual sketch directories
+      README.md          # Sketch-specific documentation
+      [Name]Sketch.ts    # Your sketch class
+      index.ts           # Export
+```
+
+Each sketch lives in its own directory with its own README. Keep them focused and documented.
