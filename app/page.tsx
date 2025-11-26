@@ -1,7 +1,7 @@
 "use client";
 
 import type p5 from "p5";
-import Sketch, { P5Sketch } from "./components/sketch";
+import Sketch, { P5Sketch } from "./components/P5Sketch";
 
 /**
  * Represents a bouncing sphere with position, velocity, size, and color.
