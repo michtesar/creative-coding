@@ -1,5 +1,5 @@
 import type p5 from "p5";
-import { P5Sketch } from "@/app/components/P5Sketch";
+import { P5Sketch } from "@/app/components/p5-sketch/P5Sketch";
 import type { Sphere } from "./types";
 
 /**
