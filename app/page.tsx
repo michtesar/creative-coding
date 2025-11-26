@@ -1,7 +1,7 @@
 "use client";
 
+import { BouncingBallSketch } from "@/app/sketches/bouncing-balls";
 import Sketch from "./components/P5Sketch";
-import BouncingBallSketch from "./sketches/bouncing-balls/BouncingBallSketch";
 
 export default function Home() {
 	console.log("[Home] Component rendering");
