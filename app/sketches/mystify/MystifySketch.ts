@@ -73,13 +73,13 @@ export default class MystifySketch extends P5Sketch {
 	private maxVelocity = 5;
 	private minVelocity = -5;
 	private strokeWeight = 1;
-
-	private nFrames = 0;
+	private trailAlpha = 10;
 
 	/**
 	 * Sets up the Mystify sketch with one or more polygons and moving vertices.
 	 */
 	protected setup(p: p5): void {
+		p.background(10);
 		this.polygons = [];
 		for (let i = 0; i < this.numPolygons; i++) {
 			const polygon = new Polygon(p, this.strokeWeight);
@@ -101,15 +101,18 @@ export default class MystifySketch extends P5Sketch {
 
 	/**
 	 * Draws and updates the animation on each frame.
+	 * Uses a semi-transparent overlay to create a fading trail effect.
 	 */
 	protected draw(p: p5): void {
-		if (this.nFrames === 0) {
-			p.background(10);
-		}
+		// Draw a semi-transparent rectangle over the entire canvas to create the trail effect
+		p.fill(10, this.trailAlpha);
+		p.noStroke();
+		p.rect(0, 0, p.width, p.height);
+
+		// Draw and update all polygons
 		for (const polygon of this.polygons) {
 			polygon.draw(p);
 			polygon.update(p);
 		}
-		this.nFrames++;
 	}
 }
