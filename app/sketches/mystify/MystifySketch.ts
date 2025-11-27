@@ -10,7 +10,15 @@ export class Polygon {
 	color!: p5.Color;
 	strokeWeight!: number;
 
-	constructor(p: p5, strokeWeight: number, color: p5.Color = p.color(255)) {
+	constructor(
+		p: p5,
+		strokeWeight: number,
+		color: p5.Color = p.color(
+			p.random(100, 255),
+			p.random(100, 255),
+			p.random(100, 255),
+		),
+	) {
 		this.vertices = [];
 		this.vertexVelocities = [];
 		this.color = color;
@@ -60,18 +68,18 @@ export class Polygon {
  */
 export default class MystifySketch extends P5Sketch {
 	private polygons: Polygon[] = [];
-	private numPolygons = 1;
+	private numPolygons = 2;
 	private numVertices = 4;
 	private maxVelocity = 5;
 	private minVelocity = -5;
 	private strokeWeight = 1;
 
+	private nFrames = 0;
+
 	/**
 	 * Sets up the Mystify sketch with one or more polygons and moving vertices.
 	 */
 	protected setup(p: p5): void {
-		p.background(10);
-
 		this.polygons = [];
 		for (let i = 0; i < this.numPolygons; i++) {
 			const polygon = new Polygon(p, this.strokeWeight);
@@ -95,10 +103,13 @@ export default class MystifySketch extends P5Sketch {
 	 * Draws and updates the animation on each frame.
 	 */
 	protected draw(p: p5): void {
-		p.background(10);
+		if (this.nFrames === 0) {
+			p.background(10);
+		}
 		for (const polygon of this.polygons) {
 			polygon.draw(p);
 			polygon.update(p);
 		}
+		this.nFrames++;
 	}
 }
